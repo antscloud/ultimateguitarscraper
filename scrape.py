@@ -1,6 +1,5 @@
 import requests
 import urllib.request
-import time
 from bs4 import BeautifulSoup
 import re
 from selenium import webdriver
@@ -27,22 +26,17 @@ def main(args2):
 
     parser=argparse.ArgumentParser()
     parser.add_argument("url", help="url to scrape")
-    parser.add_argument("-a","--all_text", help="all text",action="store_true")
-    parser.add_argument("-j","--json", help="Create a dict with infos", action="store_true")
-    parser.add_argument("-l","--lyrics", help="store only lyrics", action="store_true")
-    parser.add_argument("-c","--chords", help="store only chords", action="store_true")
-    parser.add_argument("-p","--pathtochrome", help="pass to chromedriver", nargs='?' )
-    parser.add_argument("-i","--ignoresave", help="ignore messages concerning overwriting files", action="store_true")
-    parser.add_argument("-f","--folder", help="create folder",nargs='?')
-    parser.add_argument("-t","--time", help="create folder",nargs='?')
+    parser.add_argument("-a","--all_text", help="Scrape content of the tab",action="store_true")
+    parser.add_argument("-j","--json", help="Create a json file with multiple infos", action="store_true")
+    parser.add_argument("-l","--lyrics", help="Scrape only lyrics", action="store_true")
+    parser.add_argument("-c","--chords", help="Scrape only chords", action="store_true")
+    parser.add_argument("-p","--pathtochrome", help="Path to chromedriver, In the folder from where the script is executed by default", nargs='?' )
+    parser.add_argument("-i","--ignoresave", help="Ignore messages concerning overwriting files", action="store_true")
+    parser.add_argument("-f","--folder", help="Create folder",nargs='?')
     args=parser.parse_args(args2)
 
     ignore=args.ignoresave
     driver=None
-    if args.time:
-        timesleep=args.time
-    else:
-        timesleep=0
 
     if args.folder is None:
         parser.error("argument -f/--folder: expected one argument. Please specify a folder : '-f test' for instance")
@@ -274,8 +268,6 @@ def main(args2):
         except Exception as e:
             print(e)
             print("An error has  occurred. The driver will close. It may be the connection, please check it.")
-        finally:
-            time.sleep(timesleep)
 
     if args.lyrics:
         try:
@@ -300,8 +292,6 @@ def main(args2):
         except Exception as e: 
             print(e)
             print("An error has  occurred. The driver will close. It may be the connection, please check it.")
-        finally: 
-            time.sleep(timesleep)
 
     if args.chords:
         try:
@@ -328,8 +318,6 @@ def main(args2):
         except Exception as e:
             print(e)
             print("An error has  occurred. The driver will close. It may be the connection, please check it.")
-        finally:
-            time.sleep(timesleep)
 
     if args.json:
         try:
@@ -368,8 +356,6 @@ def main(args2):
         except Exception as e: 
             print(e)
             print("An error has  occurred. The driver will close. It may be the connection, please check it.")
-        finally:
-            time.sleep(timesleep)
     
     return soup
 
